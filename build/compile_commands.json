@@ -1,0 +1,62 @@
+[
+{
+  "directory": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build",
+  "command": "f:\\qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/PersonalDateAssisant.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\PersonalDateAssisant.dir\\PersonalDateAssisant_autogen\\mocs_compilation.cpp.obj -c C:\\CodeSpace\\Objects\\QTObj\\PersonalDateAssisant\\build\\PersonalDateAssisant_autogen\\mocs_compilation.cpp",
+  "file": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build/PersonalDateAssisant_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/PersonalDateAssisant.dir/PersonalDateAssisant_autogen/mocs_compilation.cpp.obj"
+},
+{
+  "directory": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build",
+  "command": "f:\\qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/PersonalDateAssisant.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\PersonalDateAssisant.dir\\main.cpp.obj -c C:\\CodeSpace\\Objects\\QTObj\\PersonalDateAssisant\\main.cpp",
+  "file": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/main.cpp",
+  "output": "CMakeFiles/PersonalDateAssisant.dir/main.cpp.obj"
+},
+{
+  "directory": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build",
+  "command": "f:\\qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/PersonalDateAssisant.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\PersonalDateAssisant.dir\\Widget.cpp.obj -c C:\\CodeSpace\\Objects\\QTObj\\PersonalDateAssisant\\Widget.cpp",
+  "file": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/Widget.cpp",
+  "output": "CMakeFiles/PersonalDateAssisant.dir/Widget.cpp.obj"
+},
+{
+  "directory": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build",
+  "command": "f:\\qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/PersonalDateAssisant.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\PersonalDateAssisant.dir\\DatabaseManager.cpp.obj -c C:\\CodeSpace\\Objects\\QTObj\\PersonalDateAssisant\\DatabaseManager.cpp",
+  "file": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/DatabaseManager.cpp",
+  "output": "CMakeFiles/PersonalDateAssisant.dir/DatabaseManager.cpp.obj"
+},
+{
+  "directory": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build",
+  "command": "f:\\qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/PersonalDateAssisant.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\PersonalDateAssisant.dir\\ScheduleDialog.cpp.obj -c C:\\CodeSpace\\Objects\\QTObj\\PersonalDateAssisant\\ScheduleDialog.cpp",
+  "file": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/ScheduleDialog.cpp",
+  "output": "CMakeFiles/PersonalDateAssisant.dir/ScheduleDialog.cpp.obj"
+},
+{
+  "directory": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build",
+  "command": "f:\\qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/PersonalDateAssisant.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\PersonalDateAssisant.dir\\ReminderManager.cpp.obj -c C:\\CodeSpace\\Objects\\QTObj\\PersonalDateAssisant\\ReminderManager.cpp",
+  "file": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/ReminderManager.cpp",
+  "output": "CMakeFiles/PersonalDateAssisant.dir/ReminderManager.cpp.obj"
+},
+{
+  "directory": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build",
+  "command": "f:\\qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/PersonalDateAssisant.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\PersonalDateAssisant.dir\\WeatherManager.cpp.obj -c C:\\CodeSpace\\Objects\\QTObj\\PersonalDateAssisant\\WeatherManager.cpp",
+  "file": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/WeatherManager.cpp",
+  "output": "CMakeFiles/PersonalDateAssisant.dir/WeatherManager.cpp.obj"
+},
+{
+  "directory": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build",
+  "command": "f:\\qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/PersonalDateAssisant.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\PersonalDateAssisant.dir\\SettingsDialog.cpp.obj -c C:\\CodeSpace\\Objects\\QTObj\\PersonalDateAssisant\\SettingsDialog.cpp",
+  "file": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/SettingsDialog.cpp",
+  "output": "CMakeFiles/PersonalDateAssisant.dir/SettingsDialog.cpp.obj"
+},
+{
+  "directory": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build",
+  "command": "f:\\qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/PersonalDateAssisant.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\PersonalDateAssisant.dir\\ScheduleDetailDialog.cpp.obj -c C:\\CodeSpace\\Objects\\QTObj\\PersonalDateAssisant\\ScheduleDetailDialog.cpp",
+  "file": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/ScheduleDetailDialog.cpp",
+  "output": "CMakeFiles/PersonalDateAssisant.dir/ScheduleDetailDialog.cpp.obj"
+},
+{
+  "directory": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build",
+  "command": "f:\\qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/PersonalDateAssisant.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\PersonalDateAssisant.dir\\ScheduleListDialog.cpp.obj -c C:\\CodeSpace\\Objects\\QTObj\\PersonalDateAssisant\\ScheduleListDialog.cpp",
+  "file": "C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/ScheduleListDialog.cpp",
+  "output": "CMakeFiles/PersonalDateAssisant.dir/ScheduleListDialog.cpp.obj"
+}
+]
