@@ -1,9 +1,0 @@
-C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build/CMakeFiles/PersonalDateAssisant.dir
-C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build/CMakeFiles/edit_cache.dir
-C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build/CMakeFiles/rebuild_cache.dir
-C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build/CMakeFiles/list_install_components.dir
-C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build/CMakeFiles/install.dir
-C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build/CMakeFiles/install/local.dir
-C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build/CMakeFiles/install/strip.dir
-C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build/CMakeFiles/PersonalDateAssisant_autogen_timestamp_deps.dir
-C:/CodeSpace/Objects/QTObj/PersonalDateAssisant/build/CMakeFiles/PersonalDateAssisant_autogen.dir

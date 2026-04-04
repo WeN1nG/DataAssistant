@@ -1,3 +1,0 @@
-C:\CodeSpace\Compile\cmake\bin\cmake.exe -E rm -f CMakeFiles\PersonalDateAssisant.dir/objects.a
-F:\qt\Tools\mingw1310_64\bin\ar.exe qc CMakeFiles\PersonalDateAssisant.dir/objects.a @CMakeFiles\PersonalDateAssisant.dir\objects1.rsp
-f:\qt\Tools\mingw1310_64\bin\g++.exe -g -mwindows -Wl,--whole-archive CMakeFiles\PersonalDateAssisant.dir/objects.a -Wl,--no-whole-archive -o PersonalDateAssisant.exe -Wl,--out-implib,libPersonalDateAssisant.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\PersonalDateAssisant.dir\linkLibs.rsp
