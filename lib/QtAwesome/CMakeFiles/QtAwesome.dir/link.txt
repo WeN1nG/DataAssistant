@@ -1,0 +1,2 @@
+C:\D\software\QT\Tools\mingw1310_64\bin\ar.exe qc libQtAwesome.a CMakeFiles/QtAwesome.dir/QtAwesome_autogen/mocs_compilation.cpp.obj CMakeFiles/QtAwesome.dir/QtAwesome/QtAwesome.cpp.obj CMakeFiles/QtAwesome.dir/QtAwesome/QtAwesomeAnim.cpp.obj CMakeFiles/QtAwesome.dir/QtAwesome_autogen/3QVQ3WXC3W/qrc_QtAwesomeFree.cpp.obj
+C:\D\software\QT\Tools\mingw1310_64\bin\ranlib.exe libQtAwesome.a

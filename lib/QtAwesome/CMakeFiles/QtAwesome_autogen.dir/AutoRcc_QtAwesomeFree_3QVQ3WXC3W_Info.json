@@ -1,0 +1,27 @@
+{
+	"BUILD_DIR" : "C:/CODE/QTS/Projects/DateAssistant/DataAssistant/lib/QtAwesome/QtAwesome_autogen",
+	"CMAKE_BINARY_DIR" : "C:/CODE/QTS/Projects/DateAssistant/DataAssistant",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/CODE/QTS/Projects/DateAssistant/DataAssistant/lib/QtAwesome",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/CODE/QTS/Projects/DateAssistant/DataAssistant/lib/QtAwesome",
+	"CMAKE_SOURCE_DIR" : "C:/CODE/QTS/Projects/DateAssistant/DataAssistant",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "MinGW Makefiles",
+	"INCLUDE_DIR" : "C:/CODE/QTS/Projects/DateAssistant/DataAssistant/lib/QtAwesome/QtAwesome_autogen/include",
+	"INPUTS" : 
+	[
+		"C:/CODE/QTS/Projects/DateAssistant/DataAssistant/lib/QtAwesome/QtAwesome/fonts/Font Awesome 7 Free-Solid-900.otf",
+		"C:/CODE/QTS/Projects/DateAssistant/DataAssistant/lib/QtAwesome/QtAwesome/fonts/Font Awesome 7 Free-Regular-400.otf",
+		"C:/CODE/QTS/Projects/DateAssistant/DataAssistant/lib/QtAwesome/QtAwesome/fonts/Font Awesome 7 Brands-Regular-400.otf"
+	],
+	"LOCK_FILE" : "C:/CODE/QTS/Projects/DateAssistant/DataAssistant/lib/QtAwesome/CMakeFiles/QtAwesome_autogen.dir/AutoRcc_QtAwesomeFree_3QVQ3WXC3W_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "QtAwesomeFree" ],
+	"OUTPUT_CHECKSUM" : "3QVQ3WXC3W",
+	"OUTPUT_NAME" : "qrc_QtAwesomeFree.cpp",
+	"RCC_EXECUTABLE" : "C:/D/software/QT/6.10.1/mingw_64/bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "C:/CODE/QTS/Projects/DateAssistant/DataAssistant/lib/QtAwesome/CMakeFiles/QtAwesome_autogen.dir/AutoRcc_QtAwesomeFree_3QVQ3WXC3W_Used.txt",
+	"SOURCE" : "C:/CODE/QTS/Projects/DateAssistant/DataAssistant/lib/QtAwesome/QtAwesome/QtAwesomeFree.qrc",
+	"USE_BETTER_GRAPH" : true,
+	"VERBOSITY" : 0
+}
