@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>450</width>
+    <height>380</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -61,6 +61,53 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="configGroupBox">
+        <property name="title">
+         <string>当前配置信息</string>
+        </property>
+        <layout class="QVBoxLayout" name="configLayout">
+         <item>
+          <layout class="QFormLayout" name="configFormLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="currentApiKeyLabel">
+             <property name="text">
+              <string>API Key:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="currentApiKeyDisplayLabel">
+             <property name="text">
+              <string>未配置</string>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::TextSelectableByMouse</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="currentCityLabel">
+             <property name="text">
+              <string>地区:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="currentCityDisplayLabel">
+             <property name="text">
+              <string>未设置</string>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::TextSelectableByMouse</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
       </item>
      </layout>
     </widget>

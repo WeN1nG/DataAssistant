@@ -31,18 +31,6 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QPushButton" name="addScheduleButton">
-        <property name="minimumSize">
-         <size>
-          <width>70</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>70</width>
-          <height>60</height>
-         </size>
-        </property>
         <property name="toolTip">
          <string>添加日程</string>
         </property>
@@ -51,26 +39,14 @@
         </property>
         <property name="iconSize">
          <size>
-          <width>32</width>
-          <height>32</height>
+          <width>24</width>
+          <height>24</height>
          </size>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="viewAllSchedulesButton">
-        <property name="minimumSize">
-         <size>
-          <width>70</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>70</width>
-          <height>60</height>
-         </size>
-        </property>
         <property name="toolTip">
          <string>查看所有日程</string>
         </property>
@@ -79,26 +55,14 @@
         </property>
         <property name="iconSize">
          <size>
-          <width>32</width>
-          <height>32</height>
+          <width>24</width>
+          <height>24</height>
          </size>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="settingsButton">
-        <property name="minimumSize">
-         <size>
-          <width>70</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>70</width>
-          <height>60</height>
-         </size>
-        </property>
         <property name="toolTip">
          <string>设置</string>
         </property>
@@ -107,8 +71,8 @@
         </property>
         <property name="iconSize">
          <size>
-          <width>32</width>
-          <height>32</height>
+          <width>24</width>
+          <height>24</height>
          </size>
         </property>
        </widget>
@@ -155,13 +119,13 @@
     <widget class="QWidget" name="weatherWidget" native="true">
      <property name="minimumSize">
       <size>
-       <width>200</width>
+       <width>180</width>
        <height>0</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>200</width>
+       <width>180</width>
        <height>16777215</height>
       </size>
      </property>
@@ -190,77 +154,39 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QWidget" name="weatherHeaderWidget" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>60</height>
-         </size>
-        </property>
+       <widget class="QFrame" name="dateFrame">
         <property name="styleSheet">
-         <string notr="true">#weatherHeaderWidget {
+         <string notr="true">#dateFrame {
  background-color: #ffffff;
  border-top-left-radius: 12px;
  border-top-right-radius: 12px;
  border-bottom: 1px solid #e9ecef;
- padding: 0px 16px;
-}</string>
+ padding: 12px 8px;
+}
+</string>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <layout class="QVBoxLayout" name="dateLayout">
          <property name="spacing">
-          <number>8</number>
+          <number>4</number>
          </property>
          <property name="leftMargin">
-          <number>16</number>
+          <number>8</number>
          </property>
          <property name="topMargin">
           <number>12</number>
          </property>
          <property name="rightMargin">
-          <number>16</number>
+          <number>8</number>
          </property>
          <property name="bottomMargin">
           <number>12</number>
          </property>
          <item>
-          <widget class="QLabel" name="weatherIconLabel">
-           <property name="minimumSize">
-            <size>
-             <width>36</width>
-             <height>36</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>36</width>
-             <height>36</height>
-            </size>
-           </property>
+          <widget class="QLabel" name="dateLabel">
            <property name="font">
             <font>
-             <pointsize>24</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>🌤️</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="temperatureLabel">
-           <property name="font">
-            <font>
-             <family>Segoe UI</family>
-             <pointsize>28</pointsize>
+             <family>Microsoft YaHei</family>
+             <pointsize>20</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -269,10 +195,49 @@
             <string notr="true">color: #2c3e50;</string>
            </property>
            <property name="text">
-            <string>25°C</string>
+            <string></string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignVCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lunarLabel">
+           <property name="font">
+            <font>
+             <family>Microsoft YaHei</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: #6c757d;</string>
+           </property>
+           <property name="text">
+            <string></string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="solarTermLabel">
+           <property name="font">
+            <font>
+             <family>Microsoft YaHei</family>
+             <pointsize>11</pointsize>
+             <weight>60</weight>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: #495057;</string>
+           </property>
+           <property name="text">
+            <string></string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -280,45 +245,46 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="weatherContentWidget" native="true">
+       <widget class="QFrame" name="weatherFrame">
         <property name="styleSheet">
-         <string notr="true">#weatherContentWidget {
- background-color: transparent;
- padding: 16px;
-}</string>
+         <string notr="true">#weatherFrame {
+ background-color: #ffffff;
+ border-bottom: 1px solid #e9ecef;
+ padding: 16px 8px;
+}
+</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <layout class="QVBoxLayout" name="weatherLayout">
          <property name="spacing">
-          <number>12</number>
+          <number>6</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>8</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>16</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>8</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>16</number>
          </property>
          <item>
           <widget class="QLabel" name="weatherConditionLabel">
            <property name="font">
             <font>
              <family>Microsoft YaHei</family>
-             <pointsize>20</pointsize>
-             <weight>60</weight>
+             <pointsize>18</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">color: #2c3e50;
-padding: 8px 0px;</string>
+            <string notr="true">color: #2c3e50;</string>
            </property>
            <property name="text">
-            <string>晴</string>
+            <string></string>
            </property>
            <property name="alignment">
             <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -326,53 +292,112 @@ padding: 8px 0px;</string>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="dateLabel">
+          <widget class="QLabel" name="temperatureRangeLabel">
+           <property name="font">
+            <font>
+             <family>Microsoft YaHei</family>
+             <pointsize>14</pointsize>
+             <weight>50</weight>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: #495057;</string>
+           </property>
+           <property name="text">
+            <string></string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="temperatureTrendLabel">
            <property name="font">
             <font>
              <family>Microsoft YaHei</family>
              <pointsize>11</pointsize>
+             <weight>50</weight>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">color: #868e96;
-padding: 4px 0px;</string>
+            <string notr="true">color: #6c757d;</string>
+           </property>
+           <property name="text">
+            <string></string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="forecastFrame">
+        <property name="styleSheet">
+         <string notr="true">#forecastFrame {
+ background-color: #ffffff;
+ border-bottom-left-radius: 12px;
+ border-bottom-right-radius: 12px;
+ padding: 12px 8px;
+}
+</string>
+        </property>
+        <layout class="QVBoxLayout" name="forecastLayout">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <property name="leftMargin">
+          <number>8</number>
+         </property>
+         <property name="topMargin">
+          <number>12</number>
+         </property>
+         <property name="rightMargin">
+          <number>8</number>
+         </property>
+         <property name="bottomMargin">
+          <number>12</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="forecastTitleLabel">
+           <property name="font">
+            <font>
+             <family>Microsoft YaHei</family>
+             <pointsize>11</pointsize>
+             <weight>60</weight>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: #495057;</string>
+           </property>
+           <property name="text">
+            <string>未来三日天气预报：</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="forecastContentLabel">
+           <property name="font">
+            <font>
+             <family>Microsoft YaHei</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: #6c757d;
+line-height: 1.8;</string>
            </property>
            <property name="text">
             <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignmentFlag::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="Line" name="line">
-           <property name="styleSheet">
-            <string notr="true">color: #e9ecef;</string>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="forecastLabel">
-           <property name="font">
-            <font>
-             <family>Microsoft YaHei</family>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: #6c757d;
-padding: 4px 0px;
-line-height: 1.5;</string>
-           </property>
-           <property name="text">
-            <string>未来三天天气</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
            </property>
            <property name="wordWrap">
             <bool>true</bool>

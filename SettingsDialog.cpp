@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDir>
+#include <QStandardPaths>
 
 SettingsDialog::SettingsDialog(QWidget *parent, WeatherManager *weatherManager) :
     QDialog(parent),
@@ -14,6 +15,9 @@ SettingsDialog::SettingsDialog(QWidget *parent, WeatherManager *weatherManager) 
     
     // 初始化设置
     ui->weatherEnabledCheckBox->setChecked(weatherManager->isEnabled());
+    
+    // 加载并显示当前配置信息
+    loadConfigDisplay();
 }
 
 SettingsDialog::~SettingsDialog()
@@ -50,6 +54,35 @@ void SettingsDialog::on_weatherEnabledCheckBox_stateChanged(int arg1) {
     bool enabled = (arg1 == Qt::Checked);
     ui->apiKeyLineEdit->setEnabled(enabled);
     ui->cityLineEdit->setEnabled(enabled);
+}
+
+void SettingsDialog::loadConfigDisplay() {
+    // 从 WeatherManager 获取当前配置
+    QString configPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/weather_settings.ini";
+    QFile file(configPath);
+    
+    QString apiKey;
+    QString city;
+    bool enabled = false;
+    
+    if (file.exists() && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            if (line.startsWith("apiKey=")) {
+                apiKey = line.mid(7);
+            } else if (line.startsWith("city=")) {
+                city = line.mid(5);
+            } else if (line.startsWith("enabled=")) {
+                enabled = (line.mid(8) == "1");
+            }
+        }
+        file.close();
+    }
+    
+    // 显示配置信息：只有启用且配置了值时才显示，否则显示默认提示
+    ui->currentApiKeyDisplayLabel->setText(enabled && !apiKey.isEmpty() ? apiKey : "未配置");
+    ui->currentCityDisplayLabel->setText(enabled && !city.isEmpty() ? city : "未设置");
 }
 
 void SettingsDialog::on_backupButton_clicked() {

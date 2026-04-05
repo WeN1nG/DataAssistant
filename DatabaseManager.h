@@ -4,6 +4,7 @@
 #include <QString>
 #include <QDateTime>
 #include <QVector>
+#include <QColor>
 
 struct Schedule {
     int id;
@@ -13,6 +14,7 @@ struct Schedule {
     int priority; // 0: 一般, 1: 重要, 2: 紧急
     int reminderMinutes; // 提前提醒分钟数
     bool completed;
+    QColor color; // 日程颜色，根据priority自动设置
 };
 
 class DatabaseManager {
@@ -29,6 +31,8 @@ public:
     
     bool backupDatabase(const QString& backupPath);
     bool restoreDatabase(const QString& backupPath);
+    
+    static QColor getColorByPriority(int priority);
 
 private:
     QString dbPath;

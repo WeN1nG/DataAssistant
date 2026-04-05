@@ -12,7 +12,7 @@ struct WeatherInfo {
     QString temperature;
     QString condition;
     QString wind;
-    QString humidity;
+    QString temperatureRange;  // 当天温度区间，格式："18°C~25°C"
     QString forecast[3];
 };
 
@@ -31,6 +31,8 @@ public:
     
     void fetchWeather();
     WeatherInfo getWeatherInfo() const;
+    
+    static QString weatherToEmoji(const QString &weather);
 
 signals:
     void weatherUpdated();

@@ -31,8 +31,8 @@ ScheduleDialog::ScheduleDialog(QWidget *parent, Schedule *schedule) :
         default: ui->reminderComboBox->setCurrentIndex(0); break;
         }
     } else {
-        // 新建模式，设置默认时间为当前时间
-        ui->dateTimeEdit->setDateTime(QDateTime::currentDateTime());
+        // 新建模式，设置默认时间为今天的8点
+        ui->dateTimeEdit->setDateTime(QDateTime(QDate::currentDate(), QTime(8, 0, 0)));
     }
 }
 
@@ -70,6 +70,9 @@ void ScheduleDialog::on_saveButton_clicked() {
     case 5: schedule.reminderMinutes = 1440; break;
     default: schedule.reminderMinutes = 0; break;
     }
+    
+    // 根据priority设置日程颜色
+    schedule.color = DatabaseManager::getColorByPriority(schedule.priority);
     
     bool success;
     if (isEditing) {

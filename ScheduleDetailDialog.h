@@ -5,6 +5,10 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QPropertyAnimation>
+#include <QEvent>
+#include <QTimer>
+#include <QPointer>
 #include "DatabaseManager.h"
 
 class ScheduleDetailDialog : public QDialog
@@ -13,6 +17,11 @@ class ScheduleDetailDialog : public QDialog
 
 public:
     explicit ScheduleDetailDialog(const QDate& date, const QVector<Schedule>& schedules, QWidget* parent = nullptr);
+    ~ScheduleDetailDialog();
+
+protected:
+    bool eventFilter(QObject* watched, QEvent* event) override;
+    void closeEvent(QCloseEvent* event) override;
 
 private slots:
     void onEditSchedule(int scheduleId);
@@ -23,6 +32,9 @@ private:
     void setupUI();
     void formatScheduleContent();
     void showScheduleDetails();
+    void animateClose();
+    void resetState();
+    void performClose();
 
 private:
     QDate m_date;
@@ -33,6 +45,9 @@ private:
     QVBoxLayout* m_contentLayout;
     QPushButton* m_closeButton;
     DatabaseManager* dbManager;
+    QPropertyAnimation* m_closeAnimation;
+    bool m_isClosing;
+    QPointer<QWidget> m_parentWidget;
 };
 
 #endif // SCHEDULEDETAILDIALOG_H

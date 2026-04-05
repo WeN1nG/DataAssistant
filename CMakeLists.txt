@@ -9,8 +9,15 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+add_subdirectory(lib/QtAwesome)
+
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql Network)
+
+# 设置 QtAwesome 的包含路径（必须在 qt_add_executable 之前）
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/QtAwesome/QtAwesome
+)
 
 
 
@@ -35,6 +42,10 @@ set(PROJECT_SOURCES
         ScheduleDetailDialog.h
         ScheduleListDialog.cpp
         ScheduleListDialog.h
+        CalendarDelegate.cpp
+        CalendarDelegate.h
+        LunarCalendar.cpp
+        LunarCalendar.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -60,7 +71,12 @@ else()
     endif()
 endif()
 
-target_link_libraries(PersonalDateAssisant PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::Network)
+target_link_libraries(PersonalDateAssisant PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::Network QtAwesome)
+
+target_include_directories(PersonalDateAssisant PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/QtAwesome
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/QtAwesome/QtAwesome
+)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

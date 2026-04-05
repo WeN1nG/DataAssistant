@@ -2,6 +2,7 @@
 #define SETTINGSDIALOG_H
 
 #include <QDialog>
+#include <QStandardPaths>
 #include "WeatherManager.h"
 
 namespace Ui {
@@ -24,6 +25,8 @@ private slots:
     void on_restoreButton_clicked();
 
 private:
+    void loadConfigDisplay();
+
     Ui::SettingsDialog *ui;
     WeatherManager *weatherManager;
 };
