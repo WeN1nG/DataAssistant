@@ -19,11 +19,14 @@ public:
 private slots:
     void on_saveButton_clicked();
     void on_cancelButton_clicked();
+    void on_batchAddCheckBox_stateChanged(int state);
 
 private:
     Ui::ScheduleDialog *ui;
     Schedule *currentSchedule;
     bool isEditing;
+    bool validateBatchDates();
+    int getDaysInRange(const QDateTime& start, const QDateTime& end);
 };
 
 #endif // SCHEDULEDIALOG_H

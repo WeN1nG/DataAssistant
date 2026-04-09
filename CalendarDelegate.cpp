@@ -110,7 +110,9 @@ void CalendarDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
     QDate date = dateFromIndex(index);
     bool isCurrentMonth = (date.month() == m_currentMonth);
     bool isToday = (date == m_today);
+    bool isPastDate = isCurrentMonth && (date < m_today) && !isToday;
     int maxPriority = getMaxPriority(date);
+    int dayOfWeek = date.dayOfWeek();
     
     painter->save();
     
@@ -120,79 +122,81 @@ void CalendarDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
     QColor backgroundColor;
     QColor textColor;
     QFont font = option.font;
-    bool drawBorder = false;
     
-    // 根据优先级和是否为今天设置背景色
+    // 根据是否为今天、是否为过去日期、是否为当月日期设置基础背景色
     if (isToday) {
-        // 今天需要显示边框，同时保留优先级颜色
-        font.setBold(true);
-        drawBorder = true;
-        
-        // 今天的背景色根据优先级变化
-        if (maxPriority == 2) {
-            // 紧急：淡红色背景
-            backgroundColor = QColor(255, 180, 180);
-            textColor = QColor(51, 51, 51);
-        } else if (maxPriority == 1) {
-            // 重要：淡黄色背景
-            backgroundColor = QColor(255, 255, 180);
-            textColor = QColor(51, 51, 51);
-        } else if (maxPriority == 0) {
-            // 一般：淡蓝色背景
-            backgroundColor = QColor(180, 200, 255);
-            textColor = QColor(51, 51, 51);
+        // 今天是白色背景，除非有日程优先级
+        if (maxPriority >= 0) {
+            // 有日程：显示优先级颜色
+            if (maxPriority == 2) {
+                backgroundColor = QColor(255, 180, 180);
+            } else if (maxPriority == 1) {
+                backgroundColor = QColor(255, 255, 180);
+            } else {
+                backgroundColor = QColor(180, 200, 255);
+            }
         } else {
-            // 无日程：使用默认的浅灰色
-            backgroundColor = QColor(245, 245, 245);
-            textColor = QColor(51, 51, 51);
+            // 无日程：白色背景
+            backgroundColor = QColor(255, 255, 255);
         }
+        textColor = QColor(51, 51, 51);
+        font.setBold(true);
+    } else if (isPastDate) {
+        // 当月已过去的日期：浅灰色背景
+        if (maxPriority >= 0) {
+            // 有日程：显示优先级颜色
+            if (maxPriority == 2) {
+                backgroundColor = QColor(255, 180, 180);
+            } else if (maxPriority == 1) {
+                backgroundColor = QColor(255, 255, 180);
+            } else {
+                backgroundColor = QColor(180, 200, 255);
+            }
+        } else {
+            backgroundColor = QColor(245, 245, 245);
+        }
+        textColor = QColor(51, 51, 51);
+        font.setBold(false);
     } else if (!isCurrentMonth) {
-        backgroundColor = QColor(238, 238, 238);
+        // 非当月日期：深灰色背景
+        backgroundColor = QColor(224, 224, 224);
         textColor = QColor(51, 51, 51, 150);
         font.setBold(false);
-    } else if (maxPriority == 2) {
-        // 紧急：淡红色
-        backgroundColor = QColor(255, 180, 180);
-        textColor = QColor(51, 51, 51);
-        font.setBold(false);
-    } else if (maxPriority == 1) {
-        // 重要：淡黄色
-        backgroundColor = QColor(255, 255, 180);
-        textColor = QColor(51, 51, 51);
-        font.setBold(false);
-    } else if (maxPriority == 0) {
-        // 一般：淡蓝色
-        backgroundColor = QColor(180, 200, 255);
-        textColor = QColor(51, 51, 51);
-        font.setBold(false);
     } else {
-        // 无日程
-        backgroundColor = QColor(250, 250, 250);
+        // 当月未来日期：白色背景
+        if (maxPriority >= 0) {
+            // 有日程：显示优先级颜色
+            if (maxPriority == 2) {
+                backgroundColor = QColor(255, 180, 180);
+            } else if (maxPriority == 1) {
+                backgroundColor = QColor(255, 255, 180);
+            } else {
+                backgroundColor = QColor(180, 200, 255);
+            }
+        } else {
+            backgroundColor = QColor(255, 255, 255);
+        }
         textColor = QColor(51, 51, 51);
         font.setBold(false);
     }
     
+    // 绘制背景
     painter->setBrush(backgroundColor);
     painter->setPen(Qt::NoPen);
     painter->drawRect(rect);
     
-    if (drawBorder) {
-        QPen borderPen(QColor(51, 51, 51), 2);
-        painter->setPen(borderPen);
-        painter->setBrush(Qt::NoBrush);
-        painter->drawRect(contentRect);
-    }
-    
+    // 设置字体
     painter->setFont(font);
     
-    // 周六周日设置红色文字
-    int dayOfWeek = date.dayOfWeek();
+    // 设置文字颜色：周末红色，本日和其他日期使用基础颜色
     if (dayOfWeek == 6 || dayOfWeek == 7) {
-        painter->setPen(QColor(200, 50, 50));
+        // 周末日期：红色字体 #FF0000
+        painter->setPen(QColor(255, 0, 0));
     } else {
         painter->setPen(textColor);
     }
     
+    // 绘制日期数字
     QString dayText = QString::number(date.day());
     painter->drawText(rect, Qt::AlignCenter, dayText);
     

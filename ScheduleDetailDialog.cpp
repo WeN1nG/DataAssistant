@@ -394,7 +394,7 @@ void ScheduleDetailDialog::onDeleteSchedule(int scheduleId)
     );
 
     if (reply == QMessageBox::Yes) {
-        if (dbManager->deleteSchedule(scheduleId)) {
+        if (dbManager->deleteSingleSchedule(scheduleId)) {
             refreshSchedules();
             emit accepted();
         } else {
