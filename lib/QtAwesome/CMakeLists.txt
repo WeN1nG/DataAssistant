@@ -50,6 +50,11 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
+if(MINGW)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-ignored-attributes")
+    add_compile_options(-Wno-ignored-attributes)
+endif()
+
 set(QtAwesome_HEADERS
 	QtAwesome/QtAwesome.h
 	QtAwesome/QtAwesomeAnim.h
