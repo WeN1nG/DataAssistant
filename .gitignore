@@ -1,2 +1,5 @@
 .qtcreator/
+.vscode/
+.trae/
+ReleaseTemp/
 build/
