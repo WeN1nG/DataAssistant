@@ -3,3 +3,5 @@
 .trae/
 ReleaseTemp/
 build/
+CMakeLists.txt.user
+CMakeLists.txt.user.*
