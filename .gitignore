@@ -5,3 +5,4 @@ ReleaseTemp/
 build/
 CMakeLists.txt.user
 CMakeLists.txt.user.*
+temp.md
