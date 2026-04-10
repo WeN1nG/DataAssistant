@@ -9,6 +9,22 @@
 #include <QDebug>
 #include <QDate>
 
+QString WeatherManager::formatForDisplay( const QString str ){
+    QString result;
+    int commaCount = 0;
+    for (int i = 0; i < str.length(); ++i) {
+        QChar c = str.at(i);
+        result.append(c);
+        if (c == ',') {
+            commaCount++;
+            if (commaCount % 2 == 0) {
+                result.append('\n');
+            }
+        }
+    }
+    return result;
+}
+
 WeatherManager::WeatherManager(QObject *parent) :
     QObject(parent),
     networkManager(new QNetworkAccessManager(this)),
@@ -156,7 +172,6 @@ void WeatherManager::fetchWeather() {
     
     QNetworkRequest request{QUrl(url)};
     request.setHeader(QNetworkRequest::UserAgentHeader, "PersonalDateAssistant/1.0");
-    
     networkManager->get(request);
 }
 
@@ -181,7 +196,7 @@ void WeatherManager::onNetworkReply(QNetworkReply *reply) {
     
     // 打印响应内容（用于调试）
     QString responseStr = QString::fromUtf8(response);
-    qDebug() << "WeatherManager: Response preview:" << responseStr.left(200);
+    qDebug() << "WeatherManager: Response preview:" << responseStr;
     
     QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
     
@@ -210,6 +225,8 @@ void WeatherManager::onNetworkReply(QNetworkReply *reply) {
     
     // 解析 forecasts 数据（使用 extensions=all 时返回此格式）
     QJsonArray forecasts = jsonObj["forecasts"].toArray();
+    QString compactJson = QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Compact));
+    qDebug().noquote() << "compactJson:" << formatForDisplay(compactJson);
     
     if (forecasts.isEmpty()) {
         qDebug() << "WeatherManager: No forecasts data in response";
@@ -251,18 +268,21 @@ void WeatherManager::onNetworkReply(QNetworkReply *reply) {
         
         if (forecastDate == today) {
             QString dayWeather = dayForecast["dayweather"].toString();
+            QString nightWeather = dayForecast["nightweather"].toString();
             QString dayTemp = dayForecast["daytemp"].toString();
             QString nightTemp = dayForecast["nighttemp"].toString();
             
             weatherInfo.city = forecastObj["city"].toString();
             weatherInfo.condition = weatherToEmoji(dayWeather);
+            weatherInfo.nightCondition = weatherToEmoji(nightWeather);
             weatherInfo.temperatureRange = QString("%1~%2°C").arg(nightTemp).arg(dayTemp);
             weatherInfo.temperature = dayTemp + "°C";
             weatherInfo.wind = dayForecast["daywind"].toString();
             
             qDebug() << "WeatherManager: Today's weather -" 
                      << "City:" << weatherInfo.city
-                     << "Condition:" << weatherInfo.condition
+                     << "Day:" << weatherInfo.condition
+                     << "Night:" << weatherInfo.nightCondition
                      << "Temp:" << weatherInfo.temperature
                      << "Range:" << weatherInfo.temperatureRange;
             break;
@@ -291,11 +311,13 @@ void WeatherManager::onNetworkReply(QNetworkReply *reply) {
         }
         
         QString dayWeather = dayForecast["dayweather"].toString();
+        QString nightWeather = dayForecast["nightweather"].toString();
         QString dayTemp = dayForecast["daytemp"].toString();
         QString nightTemp = dayForecast["nighttemp"].toString();
         
         qDebug() << "WeatherManager: Found forecast for" << dateStr 
-                 << "- Weather:" << dayWeather
+                 << "- Day:" << dayWeather
+                 << "- Night:" << nightWeather
                  << "- Temp:" << nightTemp << "~" << dayTemp << "°C";
         
         // 获取星期信息
@@ -310,9 +332,13 @@ void WeatherManager::onNetworkReply(QNetworkReply *reply) {
             case 7: weekDay = "周日"; break;
         }
         
-        // 填充预报数据（明天、后天、大后天）
-        weatherInfo.forecast[forecastIndex] = QString("%1 %2 %3~%4°C")
-            .arg(weekDay).arg(weatherToEmoji(dayWeather)).arg(nightTemp).arg(dayTemp);
+        // 填充预报数据（明天、后天、大后天），格式："周一 🌤 晴 - 🌧️ 小雨 18~25°C"
+        weatherInfo.forecast[forecastIndex] = QString("%1 %2 - %3 %4~%5°C")
+            .arg(weekDay)
+            .arg(weatherToEmoji(dayWeather))
+            .arg(weatherToEmoji(nightWeather))
+            .arg(nightTemp)
+            .arg(dayTemp);
         
         forecastIndex++;
     }

@@ -393,11 +393,15 @@ void Widget::updateWeatherDisplay() {
         
         WeatherInfo info = weatherManager->getWeatherInfo();
         if (!info.condition.isEmpty() && !info.temperatureRange.isEmpty()) {
-            // 天气数据已加载
-            ui->weatherConditionLabel->setText(info.condition);
+            // 天气数据已加载，显示白天和晚上天气
+            // 格式："🌤 晴 - 🌧️ 小雨"
+            QString weatherDisplay = QString("%1 - %2")
+                .arg(info.condition)
+                .arg(info.nightCondition.isEmpty() ? info.condition : info.nightCondition);
+            ui->weatherConditionLabel->setText(weatherDisplay);
             ui->temperatureRangeLabel->setText(info.temperatureRange);
             
-            // 显示未来三日天气预报
+            // 显示未来三日天气预报（已包含白天和晚上天气）
             QStringList forecasts;
             for (int i = 0; i < 3; ++i) {
                 if (!info.forecast[i].isEmpty()) {
@@ -433,5 +437,15 @@ void Widget::updateDateInfo() {
         ui->solarTermLabel->clear();
     } else {
         ui->solarTermLabel->setText(solarTerm);
+    }
+}
+
+void Widget::keyPressEvent(QKeyEvent *event) {
+    if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_T) {
+        qDebug() << "Ctrl+T pressed - showing test notification";
+        reminderManager->testNotification();
+        event->accept();
+    } else {
+        QWidget::keyPressEvent(event);
     }
 }

@@ -33,6 +33,8 @@ set(PROJECT_SOURCES
         ScheduleDialog.ui
         ReminderManager.cpp
         ReminderManager.h
+        SystemTrayNotification.cpp
+        SystemTrayNotification.h
         WeatherManager.cpp
         WeatherManager.h
         SettingsDialog.cpp
@@ -71,7 +73,16 @@ else()
     endif()
 endif()
 
-target_link_libraries(PersonalDateAssisant PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::Network QtAwesome)
+target_link_libraries(PersonalDateAssisant PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Sql
+    Qt${QT_VERSION_MAJOR}::Network
+    QtAwesome
+)
+
+if(WIN32)
+    target_link_libraries(PersonalDateAssisant PRIVATE winmm.lib)
+endif()
 
 target_include_directories(PersonalDateAssisant PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/QtAwesome

@@ -119,13 +119,13 @@
     <widget class="QWidget" name="weatherWidget" native="true">
      <property name="minimumSize">
       <size>
-       <width>180</width>
+       <width>240</width>
        <height>0</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>180</width>
+       <width>280</width>
        <height>16777215</height>
       </size>
      </property>
@@ -275,10 +275,13 @@
            <property name="font">
             <font>
              <family>Microsoft YaHei</family>
-             <pointsize>18</pointsize>
+             <pointsize>16</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
            </property>
            <property name="styleSheet">
             <string notr="true">color: #2c3e50;</string>
@@ -386,12 +389,15 @@
            <property name="font">
             <font>
              <family>Microsoft YaHei</family>
-             <pointsize>12</pointsize>
+             <pointsize>11</pointsize>
             </font>
            </property>
            <property name="styleSheet">
             <string notr="true">color: #6c757d;
-line-height: 1.8;</string>
+line-height: 1.6;</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
            </property>
            <property name="text">
             <string/>
