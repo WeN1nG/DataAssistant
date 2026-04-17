@@ -1,7 +1,7 @@
 #ifndef SCHEDULELISTDIALOG_H
 #define SCHEDULELISTDIALOG_H
 
-#include <QDialog>
+#include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QScrollArea>
@@ -15,7 +15,7 @@
 #include <QTimer>
 #include "DatabaseManager.h"
 
-class ScheduleListDialog : public QDialog
+class ScheduleListDialog : public QWidget
 {
     Q_OBJECT
 

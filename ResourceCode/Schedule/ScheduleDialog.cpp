@@ -4,11 +4,12 @@
 #include <QDateTime>
 
 ScheduleDialog::ScheduleDialog(QWidget *parent, Schedule *schedule) :
-    QDialog(parent),
+    QWidget(parent),
     ui(new Ui::ScheduleDialog),
     currentSchedule(schedule),
     isEditing(schedule != nullptr)
 {
+    setAttribute(Qt::WA_DeleteOnClose, false);
     ui->setupUi(this);
     
     // 设置窗口标题
@@ -129,7 +130,8 @@ void ScheduleDialog::on_saveButton_clicked() {
                 .arg(startDate.toString("yyyy-MM-dd"))
                 .arg(endDate.toString("yyyy-MM-dd"));
             QMessageBox::information(this, "成功", message);
-            accept();
+            close();
+            emit scheduleSaved();
         } else {
             QMessageBox::warning(this, "错误", "批量添加日程失败，请重试");
         }
@@ -173,7 +175,8 @@ void ScheduleDialog::on_saveButton_clicked() {
         
         if (success) {
             QMessageBox::information(this, "成功", isEditing ? "日程更新成功" : "日程添加成功");
-            accept();
+            close();
+            emit scheduleSaved();
         } else {
             QMessageBox::warning(this, "错误", "操作失败，请重试");
         }
@@ -206,5 +209,5 @@ int ScheduleDialog::getDaysInRange(const QDateTime& start, const QDateTime& end)
 }
 
 void ScheduleDialog::on_cancelButton_clicked() {
-    reject();
+    close();
 }

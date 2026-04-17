@@ -1,7 +1,7 @@
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
-#include <QDialog>
+#include <QWidget>
 #include <QStandardPaths>
 #include "WeatherManager.h"
 
@@ -9,7 +9,7 @@ namespace Ui {
 class SettingsDialog;
 }
 
-class SettingsDialog : public QDialog
+class SettingsDialog : public QWidget
 {
     Q_OBJECT
 

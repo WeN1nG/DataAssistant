@@ -373,12 +373,14 @@ void ScheduleDetailDialog::onEditSchedule(int scheduleId)
     }
     Schedule schedule = dbManager->getScheduleById(scheduleId);
 
-    ScheduleDialog dialog(this, &schedule);
-    if (dialog.exec() == QDialog::Accepted) {
+    ScheduleDialog* dialog = new ScheduleDialog(this, &schedule);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    connect(dialog, &ScheduleDialog::scheduleSaved, this, [this, dialog]() {
         QMessageBox::information(this, "成功", "日程已更新");
         refreshSchedules();
-        emit accepted();
-    }
+        dialog->close();
+    });
+    dialog->show();
 }
 
 void ScheduleDetailDialog::onDeleteSchedule(int scheduleId)

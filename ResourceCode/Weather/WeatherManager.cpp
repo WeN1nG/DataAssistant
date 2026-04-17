@@ -31,25 +31,25 @@ WeatherManager::WeatherManager(QObject *parent) :
     updateTimer(new QTimer(this)),
     enabled(false)
 {
-    qDebug() << "WeatherManager: Initializing...";
+    // qDebug() << "WeatherManager: Initializing...";
     
     connect(networkManager, &QNetworkAccessManager::finished, this, &WeatherManager::onNetworkReply);
     connect(updateTimer, &QTimer::timeout, this, &WeatherManager::onTimerTimeout);
     
     loadSettings();
     
-    qDebug() << "WeatherManager: Settings loaded - enabled:" << enabled 
-             << "apiKey:" << (apiKey.isEmpty() ? "empty" : "set")
-             << "city:" << city;
+    // qDebug() << "WeatherManager: Settings loaded - enabled:" << enabled 
+    //          << "apiKey:" << (apiKey.isEmpty() ? "empty" : "set")
+    //          << "city:" << city;
     
     // 每 30 分钟更新一次天气
     updateTimer->start(30 * 60 * 1000);
     
     if (enabled && !apiKey.isEmpty() && !city.isEmpty()) {
-        qDebug() << "WeatherManager: Starting initial fetch...";
+        // qDebug() << "WeatherManager: Starting initial fetch...";
         fetchWeather();
     } else {
-        qDebug() << "WeatherManager: Weather not enabled or missing config";
+        // qDebug() << "WeatherManager: Weather not enabled or missing config";
     }
 }
 
@@ -117,22 +117,22 @@ QString WeatherManager::weatherToEmoji(const QString &weather) {
 void WeatherManager::setApiKey(const QString &newApiKey) {
     apiKey = newApiKey;
     saveSettings();
-    qDebug() << "WeatherManager: API key set to:" << (apiKey.isEmpty() ? "empty" : "***");
+    // qDebug() << "WeatherManager: API key set to:" << (apiKey.isEmpty() ? "empty" : "***");
 }
 
 void WeatherManager::setCity(const QString &newCity) {
     city = newCity;
     saveSettings();
-    qDebug() << "WeatherManager: City set to:" << city;
+    // qDebug() << "WeatherManager: City set to:" << city;
 }
 
 void WeatherManager::setEnabled(bool newEnabled) {
     enabled = newEnabled;
     saveSettings();
-    qDebug() << "WeatherManager: Enabled set to:" << enabled;
+    // qDebug() << "WeatherManager: Enabled set to:" << enabled;
     
     if (enabled && !apiKey.isEmpty() && !city.isEmpty()) {
-        qDebug() << "WeatherManager: Fetching weather after enable...";
+        // qDebug() << "WeatherManager: Fetching weather after enable...";
         fetchWeather();
     }
 }
@@ -143,23 +143,23 @@ bool WeatherManager::isEnabled() const {
 
 void WeatherManager::fetchWeather() {
     if (!enabled) {
-        qDebug() << "WeatherManager: fetchWeather called but weather is disabled";
+        // qDebug() << "WeatherManager: fetchWeather called but weather is disabled";
         return;
     }
     
     if (apiKey.isEmpty()) {
-        qDebug() << "WeatherManager: fetchWeather called but API key is empty";
+        // qDebug() << "WeatherManager: fetchWeather called but API key is empty";
         emit errorOccurred("API密钥未设置，请在设置中配置");
         return;
     }
     
     if (city.isEmpty()) {
-        qDebug() << "WeatherManager: fetchWeather called but city is empty";
+        // qDebug() << "WeatherManager: fetchWeather called but city is empty";
         emit errorOccurred("城市未设置，请在设置中配置");
         return;
     }
     
-    qDebug() << "WeatherManager: Fetching weather for city:" << city;
+    // qDebug() << "WeatherManager: Fetching weather for city:" << city;
     
     // 高德天气 API 请求
     // 注意：高德地图 API 支持城市名称，但需要 URL 编码
@@ -168,7 +168,7 @@ void WeatherManager::fetchWeather() {
         .arg(apiKey)
         .arg(encodedCity);
     
-    qDebug() << "WeatherManager: Request URL:" << url;
+    // qDebug() << "WeatherManager: Request URL:" << url;
     
     QNetworkRequest request{QUrl(url)};
     request.setHeader(QNetworkRequest::UserAgentHeader, "PersonalDateAssistant/1.0");
@@ -180,28 +180,28 @@ WeatherInfo WeatherManager::getWeatherInfo() const {
 }
 
 void WeatherManager::onNetworkReply(QNetworkReply *reply) {
-    qDebug() << "WeatherManager: Network reply received";
-    qDebug() << "WeatherManager: Reply error:" << reply->error();
+    // qDebug() << "WeatherManager: Network reply received";
+    // qDebug() << "WeatherManager: Reply error:" << reply->error();
     
     if (reply->error() != QNetworkReply::NoError) {
         QString errorMsg = QString("网络错误: %1").arg(reply->errorString());
-        qDebug() << "WeatherManager: Network error:" << errorMsg;
+        // qDebug() << "WeatherManager: Network error:" << errorMsg;
         emit errorOccurred(errorMsg);
         reply->deleteLater();
         return;
     }
     
     QByteArray response = reply->readAll();
-    qDebug() << "WeatherManager: Response size:" << response.size();
+    // qDebug() << "WeatherManager: Response size:" << response.size();
     
     // 打印响应内容（用于调试）
     QString responseStr = QString::fromUtf8(response);
-    qDebug() << "WeatherManager: Response preview:" << responseStr;
+    // qDebug() << "WeatherManager: Response preview:" << responseStr;
     
     QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
     
     if (jsonDoc.isNull()) {
-        qDebug() << "WeatherManager: Failed to parse JSON response";
+        // qDebug() << "WeatherManager: Failed to parse JSON response";
         emit errorOccurred("天气数据解析失败");
         reply->deleteLater();
         return;
@@ -213,11 +213,11 @@ void WeatherManager::onNetworkReply(QNetworkReply *reply) {
     QString status = jsonObj["status"].toString();
     QString info = jsonObj["info"].toString();
     
-    qDebug() << "WeatherManager: API status:" << status << "info:" << info;
+    // qDebug() << "WeatherManager: API status:" << status << "info:" << info;
     
     if (status != "1") {
         QString errorMsg = QString("API返回错误: %1").arg(info);
-        qDebug() << "WeatherManager: API error:" << errorMsg;
+        // qDebug() << "WeatherManager: API error:" << errorMsg;
         emit errorOccurred(errorMsg);
         reply->deleteLater();
         return;
@@ -226,28 +226,28 @@ void WeatherManager::onNetworkReply(QNetworkReply *reply) {
     // 解析 forecasts 数据（使用 extensions=all 时返回此格式）
     QJsonArray forecasts = jsonObj["forecasts"].toArray();
     QString compactJson = QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Compact));
-    qDebug().noquote() << "compactJson:" << formatForDisplay(compactJson);
+    // qDebug().noquote() << "compactJson:" << formatForDisplay(compactJson);
     
     if (forecasts.isEmpty()) {
-        qDebug() << "WeatherManager: No forecasts data in response";
+        // qDebug() << "WeatherManager: No forecasts data in response";
         emit errorOccurred("未获取到天气数据");
         reply->deleteLater();
         return;
     }
     
-    qDebug() << "WeatherManager: Found" << forecasts.size() << "forecast entries";
+    // qDebug() << "WeatherManager: Found" << forecasts.size() << "forecast entries";
     
     QJsonObject forecastObj = forecasts[0].toObject();
     QJsonArray castArray = forecastObj["casts"].toArray();
     
     if (castArray.isEmpty()) {
-        qDebug() << "WeatherManager: No cast data in forecast";
+        // qDebug() << "WeatherManager: No cast data in forecast";
         emit errorOccurred("天气预报数据为空");
         reply->deleteLater();
         return;
     }
     
-    qDebug() << "WeatherManager: Processing" << castArray.size() << "days of forecast";
+    // qDebug() << "WeatherManager: Processing" << castArray.size() << "days of forecast";
     
     // 清空之前的预报数据
     weatherInfo = WeatherInfo();
@@ -279,12 +279,12 @@ void WeatherManager::onNetworkReply(QNetworkReply *reply) {
             weatherInfo.temperature = dayTemp + "°C";
             weatherInfo.wind = dayForecast["daywind"].toString();
             
-            qDebug() << "WeatherManager: Today's weather -" 
-                     << "City:" << weatherInfo.city
-                     << "Day:" << weatherInfo.condition
-                     << "Night:" << weatherInfo.nightCondition
-                     << "Temp:" << weatherInfo.temperature
-                     << "Range:" << weatherInfo.temperatureRange;
+            // qDebug() << "WeatherManager: Today's weather -" 
+            //          << "City:" << weatherInfo.city
+            //          << "Day:" << weatherInfo.condition
+            //          << "Night:" << weatherInfo.nightCondition
+            //          << "Temp:" << weatherInfo.temperature
+            //          << "Range:" << weatherInfo.temperatureRange;
             break;
         }
     }
@@ -315,10 +315,10 @@ void WeatherManager::onNetworkReply(QNetworkReply *reply) {
         QString dayTemp = dayForecast["daytemp"].toString();
         QString nightTemp = dayForecast["nighttemp"].toString();
         
-        qDebug() << "WeatherManager: Found forecast for" << dateStr 
-                 << "- Day:" << dayWeather
-                 << "- Night:" << nightWeather
-                 << "- Temp:" << nightTemp << "~" << dayTemp << "°C";
+        // qDebug() << "WeatherManager: Found forecast for" << dateStr 
+        //          << "- Day:" << dayWeather
+        //          << "- Night:" << nightWeather
+        //          << "- Temp:" << nightTemp << "~" << dayTemp << "°C";
         
         // 获取星期信息
         QString weekDay;
@@ -343,14 +343,14 @@ void WeatherManager::onNetworkReply(QNetworkReply *reply) {
         forecastIndex++;
     }
     
-    qDebug() << "WeatherManager: Weather data updated successfully";
+    // qDebug() << "WeatherManager: Weather data updated successfully";
     emit weatherUpdated();
     
     reply->deleteLater();
 }
 
 void WeatherManager::onTimerTimeout() {
-    qDebug() << "WeatherManager: Timer triggered - fetching weather...";
+    // qDebug() << "WeatherManager: Timer triggered - fetching weather...";
     fetchWeather();
 }
 
@@ -366,9 +366,9 @@ void WeatherManager::saveSettings() {
         out << "city=" << city << "\n";
         out << "enabled=" << (enabled ? "1" : "0") << "\n";
         file.close();
-        qDebug() << "WeatherManager: Settings saved to" << settingsPath;
+        // qDebug() << "WeatherManager: Settings saved to" << settingsPath;
     } else {
-        qDebug() << "WeatherManager: Failed to save settings to" << settingsPath;
+        // qDebug() << "WeatherManager: Failed to save settings to" << settingsPath;
     }
 }
 
@@ -376,7 +376,7 @@ void WeatherManager::loadSettings() {
     QString appDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QString settingsPath = appDataPath + "/weather_settings.ini";
     
-    qDebug() << "WeatherManager: Loading settings from" << settingsPath;
+    // qDebug() << "WeatherManager: Loading settings from" << settingsPath;
     
     QFile file(settingsPath);
     if (file.exists() && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -385,17 +385,17 @@ void WeatherManager::loadSettings() {
             QString line = in.readLine();
             if (line.startsWith("apiKey=")) {
                 apiKey = line.mid(7);
-                qDebug() << "WeatherManager: Loaded apiKey:" << (apiKey.isEmpty() ? "empty" : "set");
+                // qDebug() << "WeatherManager: Loaded apiKey:" << (apiKey.isEmpty() ? "empty" : "set");
             } else if (line.startsWith("city=")) {
                 city = line.mid(5);
-                qDebug() << "WeatherManager: Loaded city:" << city;
+                // qDebug() << "WeatherManager: Loaded city:" << city;
             } else if (line.startsWith("enabled=")) {
                 enabled = (line.mid(8) == "1");
-                qDebug() << "WeatherManager: Loaded enabled:" << enabled;
+                // qDebug() << "WeatherManager: Loaded enabled:" << enabled;
             }
         }
         file.close();
     } else {
-        qDebug() << "WeatherManager: Settings file not found or cannot be opened";
+        // qDebug() << "WeatherManager: Settings file not found or cannot be opened";
     }
 }

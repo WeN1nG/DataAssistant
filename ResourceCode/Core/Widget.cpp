@@ -5,6 +5,7 @@
 #include "WeatherManager.h"
 #include "SettingsDialog.h"
 #include "QtAwesome.h"
+#include "EmailDataManager.h"
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include <QListWidget>
@@ -53,6 +54,22 @@ void Widget::setupToolBarButtons() {
     // 设置设置按钮（纯图标）
     ui->settingsButton->setStyleSheet(buttonStyle);
     ui->settingsButton->setToolTip("设置");
+
+    // 设置邮箱按钮（纯图标）
+    ui->emailButton->setStyleSheet(buttonStyle);
+    ui->emailButton->setToolTip("邮箱");
+
+    // 设置日历按钮（纯图标）
+    ui->calendarButton->setStyleSheet(buttonStyle);
+    ui->calendarButton->setToolTip("日历");
+
+    // 设置发邮件按钮（纯图标）
+    ui->sendEmailButton->setStyleSheet(buttonStyle);
+    ui->sendEmailButton->setToolTip("发邮件");
+
+    // 设置邮箱账号管理按钮（纯图标）
+    ui->userManagementButton->setStyleSheet(buttonStyle);
+    ui->userManagementButton->setToolTip("邮箱账号管理");
 }
 
 void Widget::setupAwesomeIcons() {
@@ -61,20 +78,40 @@ void Widget::setupAwesomeIcons() {
     m_awesome->setDefaultOption("color-selected", QColor(255, 255, 255));
     m_awesome->setDefaultOption("scale-factor", 0.8);
 
-    // 添加按钮图标 (fa_plus)
+    // 日历按钮图标 (fa_calendar)
+    QIcon calendarIcon = m_awesome->icon(fa_solid, fa_calendar);
+    ui->calendarButton->setIcon(calendarIcon);
+    ui->calendarButton->setIconSize(QSize(24, 24));
+
+    // 邮箱按钮图标 (fa_mail_bulk - 信箱图标)
+    QIcon emailIcon = m_awesome->icon(fa_solid, fa_mail_bulk);
+    ui->emailButton->setIcon(emailIcon);
+    ui->emailButton->setIconSize(QSize(24, 24));
+
+    // 添加日程按钮图标 (fa_plus - 加号)
     QIcon addIcon = m_awesome->icon(fa_solid, fa_plus);
     ui->addScheduleButton->setIcon(addIcon);
     ui->addScheduleButton->setIconSize(QSize(24, 24));
 
-    // 日历按钮图标 (fa_calendar)
-    QIcon calendarIcon = m_awesome->icon(fa_solid, fa_calendar);
-    ui->viewAllSchedulesButton->setIcon(calendarIcon);
+    // 日程表按钮图标 (fa_list - 列表)
+    QIcon scheduleListIcon = m_awesome->icon(fa_solid, fa_list);
+    ui->viewAllSchedulesButton->setIcon(scheduleListIcon);
     ui->viewAllSchedulesButton->setIconSize(QSize(24, 24));
 
     // 齿轮/设置按钮图标 (fa_cog)
     QIcon settingsIcon = m_awesome->icon(fa_solid, fa_cog);
     ui->settingsButton->setIcon(settingsIcon);
     ui->settingsButton->setIconSize(QSize(24, 24));
+
+    // 发邮件按钮图标 (fa_paper_plane)
+    QIcon sendEmailIcon = m_awesome->icon(fa_solid, fa_paper_plane);
+    ui->sendEmailButton->setIcon(sendEmailIcon);
+    ui->sendEmailButton->setIconSize(QSize(24, 24));
+
+    // 邮箱账号管理按钮图标 (fa_user)
+    QIcon userManagementIcon = m_awesome->icon(fa_solid, fa_user);
+    ui->userManagementButton->setIcon(userManagementIcon);
+    ui->userManagementButton->setIconSize(QSize(24, 24));
 
     // 更新按钮样式，支持图标和文字并排显示
     QString iconButtonStyle = R"(
@@ -97,8 +134,12 @@ void Widget::setupAwesomeIcons() {
         }
     )";
 
+    ui->calendarButton->setStyleSheet(iconButtonStyle);
+    ui->emailButton->setStyleSheet(iconButtonStyle);
     ui->addScheduleButton->setStyleSheet(iconButtonStyle);
     ui->viewAllSchedulesButton->setStyleSheet(iconButtonStyle);
+    ui->sendEmailButton->setStyleSheet(iconButtonStyle);
+    ui->userManagementButton->setStyleSheet(iconButtonStyle);
     ui->settingsButton->setStyleSheet(iconButtonStyle);
 }
 
@@ -113,21 +154,27 @@ Widget::Widget(QWidget *parent)
     , m_calendarDelegate(new CalendarDelegate(this))
     , m_calendarTableView(nullptr)
     , m_lunarCalendar(new LunarCalendar())
+    , m_emailWindow(nullptr)
+    , m_emailCountWindow(nullptr)
+    , m_emailSendWindow(nullptr)
+    , m_inboxWidget(nullptr)
+    , m_sendEmailWidget(nullptr)
+    , m_userManagementWidget(nullptr)
+    , m_addScheduleWidget(nullptr)
+    , m_scheduleListWidget(nullptr)
+    , m_settingsWidget(nullptr)
+    , m_windowStack(nullptr)
+    , m_currentWindow(Window_Calendar)
 {
+    // 初始化刷新状态数组
+    for (int i = 0; i < 7; ++i) {
+        m_needsRefresh[i] = false;
+    }
+    
     ui->setupUi(this);
     
-    // 使用标准QCalendarWidget
-    QVBoxLayout* calendarLayout = qobject_cast<QVBoxLayout*>(ui->calendarView->parentWidget()->layout());
-    if (calendarLayout) {
-        // 隐藏原来的日历
-        ui->calendarView->hide();
-        
-        // 设置日历的大小策略
-        m_calendarWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        
-        // 将日历添加到布局
-        calendarLayout->replaceWidget(ui->calendarView, m_calendarWidget);
-    }
+    // 设置窗口栈
+    setupWindowStack();
     
     setupCalendar();
     updateCalendarMarks();
@@ -162,6 +209,10 @@ Widget::Widget(QWidget *parent)
     if (!weatherManager->isEnabled()) {
         ui->weatherWidget->hide();
     }
+
+    EmailDataManager emailDataManager;
+    bool del = emailDataManager.IniAllEmailDatabaseFiles();
+    qDebug() << "Delete Local Database : " << del;
 }
 
 Widget::~Widget()
@@ -172,7 +223,94 @@ Widget::~Widget()
     delete m_awesome;
     delete m_calendarDelegate;
     delete m_lunarCalendar;
+    delete m_emailWindow;
+    delete m_inboxWidget;
+    delete m_sendEmailWidget;
+    delete m_userManagementWidget;
+    delete m_addScheduleWidget;
+    delete m_scheduleListWidget;
+    delete m_settingsWidget;
+    delete m_windowStack;
     delete ui;
+}
+
+void Widget::setupWindowStack() {
+    // 隐藏原来的日历
+    ui->calendarView->hide();
+    
+    // 创建窗口栈
+    m_windowStack = new QStackedWidget(this);
+    m_windowStack->setObjectName("windowStack");
+    m_windowStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    
+    // 设置日历窗口
+    m_calendarWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_windowStack->addWidget(m_calendarWidget);
+    
+    // 创建并设置邮箱窗口
+    setupInboxWidget();
+    if (m_emailWindow) {
+        m_windowStack->addWidget(m_emailWindow);
+    }
+
+    // 创建并设置发送邮件窗口
+    setupSendEmailWidget();
+    if (m_sendEmailWidget) {
+        m_windowStack->addWidget(m_sendEmailWidget);
+    }
+    
+    // 创建并设置用户管理窗口
+    setupUserManagementWidget();
+    if (m_userManagementWidget) {
+        m_windowStack->addWidget(m_userManagementWidget);
+    }
+    
+    // 创建并设置添加日程窗口
+    setupAddScheduleWidget();
+    if (m_addScheduleWidget) {
+        m_windowStack->addWidget(m_addScheduleWidget);
+    }
+    
+    // 创建并设置日程表窗口
+    setupScheduleListWidget();
+    if (m_scheduleListWidget) {
+        m_windowStack->addWidget(m_scheduleListWidget);
+    }
+    
+    // 创建并设置设置窗口
+    setupSettingsWidget();
+    if (m_settingsWidget) {
+        m_windowStack->addWidget(m_settingsWidget);
+    }
+    
+    // 将窗口栈添加到布局
+    QVBoxLayout* calendarLayout = qobject_cast<QVBoxLayout*>(ui->calendarView->parentWidget()->layout());
+    if (calendarLayout) {
+        calendarLayout->replaceWidget(ui->calendarView, m_windowStack);
+    }
+    
+    // 设置默认显示日历窗口
+    m_windowStack->setCurrentIndex(Window_Calendar);
+}
+
+void Widget::switchToWindow(WindowType windowType) {
+    if (windowType == m_currentWindow && !m_needsRefresh[windowType]) {
+        return;
+    }
+    
+    // 标记当前窗口需要刷新
+    markWindowAsRefreshed(m_currentWindow);
+    
+    // 切换到新窗口
+    m_currentWindow = windowType;
+    m_windowStack->setCurrentIndex(windowType);
+    
+    // 清除刷新标记
+    m_needsRefresh[windowType] = false;
+}
+
+void Widget::markWindowAsRefreshed(WindowType windowType) {
+    m_needsRefresh[windowType] = true;
 }
 
 void Widget::setupCalendar() {
@@ -284,30 +422,134 @@ void Widget::updateCalendarMarks() {
 }
 
 void Widget::on_addScheduleButton_clicked() {
-    ScheduleDialog dialog(this);
-    if (dialog.exec() == QDialog::Accepted) {
-        updateCalendarMarks();
-    }
+    switchToWindow(Window_AddSchedule);
 }
 
 void Widget::on_viewAllSchedulesButton_clicked() {
-    // 使用新的日程列表对话框
-    ScheduleListDialog dialog(this);
-    dialog.exec();
-    
-    // 刷新日历标记
-    updateCalendarMarks();
+    switchToWindow(Window_ScheduleList);
 }
 
 void Widget::on_settingsButton_clicked() {
-    SettingsDialog dialog(this, weatherManager);
-    dialog.exec();
-    
-    if (weatherManager->isEnabled()) {
-        ui->weatherWidget->show();
-    } else {
-        ui->weatherWidget->hide();
+    switchToWindow(Window_Settings);
+}
+
+void Widget::on_emailButton_clicked() {
+    switchToWindow(Window_Inbox);
+}
+
+void Widget::on_calendarButton_clicked() {
+    switchToWindow(Window_Calendar);
+}
+
+void Widget::on_sendEmailButton_clicked() {
+    switchToWindow(Window_SendEmail);
+}
+
+void Widget::setupSendEmailWidget() {
+    if (m_sendEmailWidget) {
+        return;
     }
+    
+    m_sendEmailWidget = new QWidget(this);
+    m_sendEmailWidget->setObjectName("sendEmailWidget");
+    m_sendEmailWidget->setStyleSheet(R"(
+        #sendEmailWidget {
+            background-color: #ffffff;
+            border: 1px solid #333333;
+        }
+    )");
+    
+    m_sendEmailWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    
+    QVBoxLayout* layout = new QVBoxLayout(m_sendEmailWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    
+    m_emailSendWindow = new EmailSendWindow(m_sendEmailWidget);
+    m_emailSendWindow->setObjectName("emailSendWindow");
+    layout->addWidget(m_emailSendWindow);
+}
+
+void Widget::on_userManagementButton_clicked() {
+    switchToWindow(Window_UserManagement);
+}
+
+void Widget::setupUserManagementWidget() {
+    if (m_userManagementWidget) {
+        return;
+    }
+    
+    m_userManagementWidget = new QWidget(this);
+    m_userManagementWidget->setObjectName("userManagementWidget");
+    m_userManagementWidget->setStyleSheet(R"(
+        #userManagementWidget {
+            background-color: #ffffff;
+            border: 1px solid #333333;
+        }
+    )");
+    
+    m_userManagementWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    
+    QVBoxLayout* layout = new QVBoxLayout(m_userManagementWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    
+    m_emailCountWindow = new EmailCountWindow(m_userManagementWidget);
+    m_emailCountWindow->setObjectName("emailCountWindow");
+    layout->addWidget(m_emailCountWindow);
+}
+
+void Widget::setupAddScheduleWidget() {
+    if (m_addScheduleWidget) {
+        return;
+    }
+    
+    m_addScheduleWidget = new QWidget(this);
+    m_addScheduleWidget->setObjectName("addScheduleWidget");
+    m_addScheduleWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    
+    ScheduleDialog* scheduleDialog = new ScheduleDialog(m_addScheduleWidget);
+    QVBoxLayout* layout = new QVBoxLayout(m_addScheduleWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(scheduleDialog);
+}
+
+void Widget::setupScheduleListWidget() {
+    if (m_scheduleListWidget) {
+        return;
+    }
+    
+    m_scheduleListWidget = new QWidget(this);
+    m_scheduleListWidget->setObjectName("scheduleListWidget");
+    m_scheduleListWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    
+    ScheduleListDialog* scheduleListDialog = new ScheduleListDialog(m_scheduleListWidget);
+    QVBoxLayout* layout = new QVBoxLayout(m_scheduleListWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(scheduleListDialog);
+}
+
+void Widget::setupSettingsWidget() {
+    if (m_settingsWidget) {
+        return;
+    }
+    
+    m_settingsWidget = new QWidget(this);
+    m_settingsWidget->setObjectName("settingsWidget");
+    m_settingsWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    
+    SettingsDialog* settingsDialog = new SettingsDialog(m_settingsWidget, weatherManager);
+    QVBoxLayout* layout = new QVBoxLayout(m_settingsWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(settingsDialog);
+}
+
+void Widget::setupInboxWidget() {
+    if (m_emailWindow) {
+        return;
+    }
+
+    m_emailWindow = new EmailBoxWindow(this);
+    m_emailWindow->setObjectName("emailWindow");
+    m_emailWindow->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
 void Widget::on_calendarView_selectionChanged() {

@@ -6,7 +6,7 @@
 #include <QEasingCurve>
 
 ScheduleListDialog::ScheduleListDialog(QWidget* parent)
-    : QDialog(parent)
+    : QWidget(parent)
     , m_mainLayout(nullptr)
     , m_contentWidget(nullptr)
     , m_contentLayout(nullptr)
@@ -19,12 +19,11 @@ ScheduleListDialog::ScheduleListDialog(QWidget* parent)
     , m_loadingLabel(nullptr)
     , dbManager(new DatabaseManager())
 {
+    setAttribute(Qt::WA_DeleteOnClose, false);
     setWindowTitle("日程表");
-    setMinimumSize(650, 550);
-    setModal(true);
     
-    // 设置窗口标志，提升视觉质感
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    // 设置窗口标志，移除对话框标志
+    setWindowFlags(windowFlags() & ~Qt::Dialog);
     
     setupUI();
     loadSchedules();
@@ -917,12 +916,14 @@ void ScheduleListDialog::onEditSchedule(int scheduleId)
 {
     Schedule schedule = dbManager->getScheduleById(scheduleId);
     
-    ScheduleDialog dialog(this, &schedule);
-    if (dialog.exec() == QDialog::Accepted) {
+    ScheduleDialog* dialog = new ScheduleDialog(this, &schedule);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    connect(dialog, &ScheduleDialog::scheduleSaved, this, [this, dialog]() {
         QMessageBox::information(this, "成功", "日程已更新");
         refreshScheduleList();
-        emit accepted();  // 通知主窗口刷新
-    }
+        dialog->close();
+    });
+    dialog->show();
 }
 
 void ScheduleListDialog::onDeleteSchedule(int scheduleId)
@@ -947,7 +948,6 @@ void ScheduleListDialog::onDeleteSchedule(int scheduleId)
     if (reply == QMessageBox::Yes) {
         if (dbManager->deleteSingleSchedule(scheduleId)) {
             refreshScheduleList();
-            emit accepted();  // 通知主窗口刷新
             
             // 显示成功提示
             if (schedule.isBatch) {

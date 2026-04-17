@@ -60,6 +60,9 @@ bool DatabaseManager::initializeDatabase() {
         query.exec("ALTER TABLE schedules ADD COLUMN isBatch INTEGER DEFAULT 0");
     }
 
+    query.exec("CREATE TABLE IF NOT EXISTS imap_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, emailAddress TEXT NOT NULL, displayName TEXT, imapServer TEXT NOT NULL, imapPort INTEGER DEFAULT 993, username TEXT NOT NULL, password TEXT NOT NULL, isDefault INTEGER DEFAULT 0, isActive INTEGER DEFAULT 1, createdAt TEXT, lastUsedAt TEXT)");
+    query.exec("CREATE TABLE IF NOT EXISTS smtp_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, emailAddress TEXT NOT NULL, displayName TEXT, smtpServer TEXT NOT NULL, smtpPort INTEGER DEFAULT 587, username TEXT NOT NULL, password TEXT NOT NULL, isDefault INTEGER DEFAULT 0, isActive INTEGER DEFAULT 1, createdAt TEXT, lastUsedAt TEXT)");
+
     db.close();
     return true;
 }

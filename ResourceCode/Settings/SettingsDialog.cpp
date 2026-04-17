@@ -7,10 +7,11 @@
 #include <QStandardPaths>
 
 SettingsDialog::SettingsDialog(QWidget *parent, WeatherManager *weatherManager) :
-    QDialog(parent),
+    QWidget(parent),
     ui(new Ui::SettingsDialog),
     weatherManager(weatherManager)
 {
+    setAttribute(Qt::WA_DeleteOnClose, false);
     ui->setupUi(this);
     
     // 初始化设置
@@ -43,11 +44,11 @@ void SettingsDialog::on_saveButton_clicked() {
     weatherManager->setEnabled(enabled);
     
     QMessageBox::information(this, "成功", "设置已保存");
-    accept();
+    close();
 }
 
 void SettingsDialog::on_cancelButton_clicked() {
-    reject();
+    close();
 }
 
 void SettingsDialog::on_weatherEnabledCheckBox_stateChanged(int arg1) {

@@ -7,6 +7,8 @@
 #include <QColor>
 #include <QSqlDatabase>
 
+#include "../email/EmailModels.h"
+
 struct Schedule {
     int id;
     QString title;
@@ -71,6 +73,13 @@ public:
     bool restoreDatabase(const QString& backupPath);
     
     static QColor getColorByPriority(int priority);
+
+    bool saveImapAccount(const EmailAccount& account);
+    bool saveSmtpAccount(const EmailAccount& account);
+    QVector<EmailAccount> getImapAccounts();
+    QVector<EmailAccount> getSmtpAccounts();
+    bool deleteImapAccount(int id);
+    bool deleteSmtpAccount(int id);
 
 private:
     QString dbPath;

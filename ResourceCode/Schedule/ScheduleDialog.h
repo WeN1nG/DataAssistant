@@ -1,20 +1,23 @@
 #ifndef SCHEDULEDIALOG_H
 #define SCHEDULEDIALOG_H
 
-#include <QDialog>
+#include <QWidget>
 #include "DatabaseManager.h"
 
 namespace Ui {
 class ScheduleDialog;
 }
 
-class ScheduleDialog : public QDialog
+class ScheduleDialog : public QWidget
 {
     Q_OBJECT
 
 public:
     explicit ScheduleDialog(QWidget *parent = nullptr, Schedule *schedule = nullptr);
     ~ScheduleDialog();
+
+signals:
+    void scheduleSaved();
 
 private slots:
     void on_saveButton_clicked();
